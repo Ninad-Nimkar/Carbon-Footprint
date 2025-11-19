@@ -1,64 +1,103 @@
-.dashboard {
-      max-width: 1100px;
-      width: 100%;
-      margin: 26px auto;
-      padding: 26px;
-    }
-    .top-row { display:flex; gap:20px; align-items:stretch; margin-bottom:26px; flex-wrap:wrap; }
-    .summary {
-      flex: 1 1 320px;
-      background: rgba(255,255,255,0.03);
-      border-radius:14px;
-      padding:20px;
-      border: 1px solid rgba(46,255,160,0.06);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-    }
-    .summary h2 { margin:0 0 8px; color: #2effa0; font-size:20px; }
-    .summary .big { font-size:34px; font-weight:800; color:#aaffd8; margin:6px 0; }
-    .summary .meta { color:#bfeec9; margin-top:6px; font-size:14px; }
+.main-header {
+    width: 100%;
+    padding: 18px 24px;
+    background: rgba(0,0,0,0.10);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    border-bottom: 1px solid rgba(46,255,160,0.2);
+}
 
-    .controls { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
-    .controls button { padding:10px 14px; min-width:150px; }
+.topnav {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .chart-card {
-      flex: 2 1 520px;
-      background: rgba(255,255,255,0.02);
-      border-radius:14px;
-      padding:18px;
-      border: 1px solid rgba(46,255,160,0.04);
-    }
-    .chart-card h3 { color: #2effa0; margin-top:0; }
+.logo {
+    color: #2effa0;
+    font-size: 20px;
+    font-weight: 700;
+}
 
-    .entries { margin-top:18px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-    @media (max-width:900px) { .entries { grid-template-columns:1fr; } }
+.nav-links a {
+    margin-left: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #bfeec9;
+    transition: 0.2s;
+}
 
-    .entry {
-      background: rgba(255,255,255,0.02);
-      padding:16px;
-      border-radius:12px;
-      border: 1px solid rgba(46,255,160,0.03);
-    }
-    .entry .row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .entry .small { color:#bfeec9; font-size:13px; }
-    .entry .total { color:#aaffd8; font-weight:700; font-size:18px; }
+.nav-links a:hover {
+    color: #2effa0;
+}
 
-    /* mini bar */
-    .bar-wrap { height:12px; background: rgba(255,255,255,0.02); border-radius:8px; overflow:hidden; margin-top:10px; }
-    .bar { height:100%; background: linear-gradient(90deg,#1dff8e,#17d66b); width:40%; }
 
-    /* AI plan box */
-    #planOutput {
-      margin-top:18px;
-      width:100%;
-      background: rgba(255,255,255,0.04);
-      padding:18px;
-      border-radius:12px;
-      border: 1px solid rgba(46,255,160,0.12);
-      color: #d6ffe4;
-      line-height:1.5;
-      white-space:pre-wrap;
-    }
 
-    .hint { color:#bfeec9; font-size:13px; margin-top:10px; }
 
-    .note-link { color: #c8ffd6; text-decoration:underline; }
+/* FIX GLOBAL BACKGROUND + TEXT */
+body {
+    background: linear-gradient(180deg, #071423, #091a30) !important;
+    color: #d6ffe4 !important;
+}
+
+/* DARK NEON HEADER */
+header nav a {
+    color: #bfeec9 !important;
+    font-weight: 600;
+}
+header nav a:hover {
+    color: #2effa0 !important;
+}
+
+/* SUMMARY CARD (LEFT BOX) */
+.summary {
+    background: rgba(255,255,255,0.05) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(46,255,160,0.25) !important;
+    color: #d6ffe4 !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4) !important;
+}
+
+/* CHART CARD (RIGHT BOX) */
+.chart-card {
+    background: rgba(255,255,255,0.05) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(46,255,160,0.25) !important;
+    color: #d6ffe4 !important;
+}
+
+/* ENTRY CARDS */
+.entry {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(46,255,160,0.15) !important;
+    color: #d6ffe4 !important;
+    border-radius: 12px !important;
+}
+
+/* MINI BAR COLORS */
+.bar-wrap {
+    background: rgba(255,255,255,0.07) !important;
+}
+.bar {
+    background: linear-gradient(90deg,#1dff8e,#17d66b) !important;
+}
+
+/* AI PLAN OUTPUT BOX */
+#planOutput {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(46,255,160,0.25) !important;
+    color: #d6ffe4 !important;
+}
+
+/* FIX BUTTONS */
+button {
+    background: linear-gradient(135deg, #1dff8e, #17d66b) !important;
+    color: #02140c !important;
+    border: none !important;
+    border-radius: 12px !important;
+}

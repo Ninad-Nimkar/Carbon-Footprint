@@ -76,15 +76,15 @@
 <body>
 
   <!-- keep the same header look as index (if you have a header include, remove duplicate) -->
-  <header style="width:100%;padding:18px 24px;">
-    <nav style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;">
-      <div style="color:#bfeec9;font-weight:700">The Debuggers</div>
-      <div>
-        <a href="index.htm" style="color:#bfeec9;margin-right:12px;text-decoration:none">Home</a>
-        <a href="Carbon Calc.htm" style="color:#bfeec9;text-decoration:none">Calculator</a>
-      </div>
+ <header class="main-header">
+    <nav class="topnav">
+        <div class="logo">The Debuggers</div>
+        <div class="nav-links">
+            <a href="index.htm">Home</a>
+            <a href="Carbon.htm">Calculator</a>
+        </div>
     </nav>
-  </header>
+</header>
 
   <main class="dashboard">
     <div class="top-row">
@@ -95,11 +95,8 @@
 
         <div class="controls">
           <button id="refreshBtn">Refresh</button>
-          <button id="planBtn">Generate 7-day plan</button>
-          <a class="note-link" href="/mnt/data/towards a (3).pdf" target="_blank" style="align-self:center">See design PDF</a>
+          
         </div>
-
-        <div class="hint">Tip: Save results from the Calculator to see your progress here.</div>
       </div>
 
       <div class="chart-card">
@@ -174,7 +171,7 @@
     const totals = arr.map(e => e.total);
     const earliest = totals[0];
     const latest = totals[totals.length-1];
-    latestTotalEl.innerText = latest.toFixed(2) + ' kg';
+    latestTotalEl.innerText = latest.toFixed(2) + ' points';
 
     // percent change (earliest -> latest)
     let pct = 0;
@@ -226,7 +223,7 @@
 
       const r1 = document.createElement('div'); r1.className='row';
       const left = document.createElement('div'); left.innerHTML = `<div class="small">${(new Date(e.timestamp)).toLocaleString()}</div>`;
-      const right = document.createElement('div'); right.innerHTML = `<div class="total">${e.total.toFixed(2)} kg</div>`;
+      const right = document.createElement('div'); right.innerHTML = `<div class="total">${e.total.toFixed(2)} points</div>`;
       r1.appendChild(left); r1.appendChild(right);
 
       const r2 = document.createElement('div'); r2.className='row';
@@ -304,6 +301,7 @@
     const last = Object.values(data)[0];
     generatePlan(last.total);
   });
+  
 
   </script>
 </body>
