@@ -51,13 +51,12 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     let total = computeTotal(km, kwh, water);
 
     saveEntry(km, kwh, water, total);
-    alert("Saved to database!");
 });
 
 
 // ---------------- AI Tips (OpenRouter) ----------------
 async function getAISuggestions(total) {
-    const apiKey = "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";
+    const apiKey = "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";
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -72,7 +71,7 @@ async function getAISuggestions(total) {
             messages: [
                 {
                     role: "user",
-                    content: `Give 5 short, simple carbon footprint reduction tips for someone with score ${total}.`
+                    content: `Give 5 short, simple carbon footprint reduction tips for someone with score, just the points with gaps in between, no introduction is outro${total}.`
                 }
             ]
         })

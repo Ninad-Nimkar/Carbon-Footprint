@@ -1,0 +1,64 @@
+.dashboard {
+      max-width: 1100px;
+      width: 100%;
+      margin: 26px auto;
+      padding: 26px;
+    }
+    .top-row { display:flex; gap:20px; align-items:stretch; margin-bottom:26px; flex-wrap:wrap; }
+    .summary {
+      flex: 1 1 320px;
+      background: rgba(255,255,255,0.03);
+      border-radius:14px;
+      padding:20px;
+      border: 1px solid rgba(46,255,160,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    .summary h2 { margin:0 0 8px; color: #2effa0; font-size:20px; }
+    .summary .big { font-size:34px; font-weight:800; color:#aaffd8; margin:6px 0; }
+    .summary .meta { color:#bfeec9; margin-top:6px; font-size:14px; }
+
+    .controls { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+    .controls button { padding:10px 14px; min-width:150px; }
+
+    .chart-card {
+      flex: 2 1 520px;
+      background: rgba(255,255,255,0.02);
+      border-radius:14px;
+      padding:18px;
+      border: 1px solid rgba(46,255,160,0.04);
+    }
+    .chart-card h3 { color: #2effa0; margin-top:0; }
+
+    .entries { margin-top:18px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    @media (max-width:900px) { .entries { grid-template-columns:1fr; } }
+
+    .entry {
+      background: rgba(255,255,255,0.02);
+      padding:16px;
+      border-radius:12px;
+      border: 1px solid rgba(46,255,160,0.03);
+    }
+    .entry .row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .entry .small { color:#bfeec9; font-size:13px; }
+    .entry .total { color:#aaffd8; font-weight:700; font-size:18px; }
+
+    /* mini bar */
+    .bar-wrap { height:12px; background: rgba(255,255,255,0.02); border-radius:8px; overflow:hidden; margin-top:10px; }
+    .bar { height:100%; background: linear-gradient(90deg,#1dff8e,#17d66b); width:40%; }
+
+    /* AI plan box */
+    #planOutput {
+      margin-top:18px;
+      width:100%;
+      background: rgba(255,255,255,0.04);
+      padding:18px;
+      border-radius:12px;
+      border: 1px solid rgba(46,255,160,0.12);
+      color: #d6ffe4;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+
+    .hint { color:#bfeec9; font-size:13px; margin-top:10px; }
+
+    .note-link { color: #c8ffd6; text-decoration:underline; }

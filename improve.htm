@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Progress & Improvements — Carbon Footprint</title>
+  <link rel="stylesheet" href="imp.css" />
+  <style>
+    /* small local tweaks for dashboard layout (keeps same theme) */
+    .dashboard {
+      max-width: 1100px;
+      width: 100%;
+      margin: 26px auto;
+      padding: 26px;
+    }
+    .top-row { display:flex; gap:20px; align-items:stretch; margin-bottom:26px; flex-wrap:wrap; }
+    .summary {
+      flex: 1 1 320px;
+      background: rgba(255,255,255,0.03);
+      border-radius:14px;
+      padding:20px;
+      border: 1px solid rgba(46,255,160,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    .summary h2 { margin:0 0 8px; color: #2effa0; font-size:20px; }
+    .summary .big { font-size:34px; font-weight:800; color:#aaffd8; margin:6px 0; }
+    .summary .meta { color:#bfeec9; margin-top:6px; font-size:14px; }
+
+    .controls { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+    .controls button { padding:10px 14px; min-width:150px; }
+
+    .chart-card {
+      flex: 2 1 520px;
+      background: rgba(255,255,255,0.02);
+      border-radius:14px;
+      padding:18px;
+      border: 1px solid rgba(46,255,160,0.04);
+    }
+    .chart-card h3 { color: #2effa0; margin-top:0; }
+
+    .entries { margin-top:18px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    @media (max-width:900px) { .entries { grid-template-columns:1fr; } }
+
+    .entry {
+      background: rgba(255,255,255,0.02);
+      padding:16px;
+      border-radius:12px;
+      border: 1px solid rgba(46,255,160,0.03);
+    }
+    .entry .row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .entry .small { color:#bfeec9; font-size:13px; }
+    .entry .total { color:#aaffd8; font-weight:700; font-size:18px; }
+
+    /* mini bar */
+    .bar-wrap { height:12px; background: rgba(255,255,255,0.02); border-radius:8px; overflow:hidden; margin-top:10px; }
+    .bar { height:100%; background: linear-gradient(90deg,#1dff8e,#17d66b); width:40%; }
+
+    /* AI plan box */
+    #planOutput {
+      margin-top:18px;
+      width:100%;
+      background: rgba(255,255,255,0.04);
+      padding:18px;
+      border-radius:12px;
+      border: 1px solid rgba(46,255,160,0.12);
+      color: #d6ffe4;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+
+    .hint { color:#bfeec9; font-size:13px; margin-top:10px; }
+
+    .note-link { color: #c8ffd6; text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+  <!-- keep the same header look as index (if you have a header include, remove duplicate) -->
+  <header style="width:100%;padding:18px 24px;">
+    <nav style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;">
+      <div style="color:#bfeec9;font-weight:700">The Debuggers</div>
+      <div>
+        <a href="index.htm" style="color:#bfeec9;margin-right:12px;text-decoration:none">Home</a>
+        <a href="Carbon Calc.htm" style="color:#bfeec9;text-decoration:none">Calculator</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <div class="top-row">
+      <div class="summary">
+        <h2>Your Progress</h2>
+        <div class="big" id="latestTotal">— kg</div>
+        <div class="meta" id="trendText">No history yet</div>
+
+        <div class="controls">
+          <button id="refreshBtn">Refresh</button>
+          <button id="planBtn">Generate 7-day plan</button>
+          <a class="note-link" href="/mnt/data/towards a (3).pdf" target="_blank" style="align-self:center">See design PDF</a>
+        </div>
+
+        <div class="hint">Tip: Save results from the Calculator to see your progress here.</div>
+      </div>
+
+      <div class="chart-card">
+        <h3>Trend (recent entries)</h3>
+        <div id="miniBars" style="display:grid;gap:10px;margin-top:12px"></div>
+
+        <div style="margin-top:12px;color:#bfeec9;font-size:13px">
+          Shows your recent totals and how they compare. Lower is better.
+        </div>
+      </div>
+    </div>
+
+    <section>
+      <h3 style="color:#2effa0;margin:8px 0 16px">Previous entries</h3>
+
+      <div class="entries" id="entriesList">
+        <!-- entries injected here -->
+      </div>
+
+      <div id="planOutput" style="display:none"></div>
+    </section>
+  </main>
+
+  <!-- firebase + improve script -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+  // ---------- Firebase config - copy same as your other files ----------
+  const firebaseConfig = {
+      apiKey: "AIzaSyBGIGmJO1tn1gJg1WkCgKZbUTdTOsI5d4Q",
+      authDomain: "carbon-footprint-b6c76.firebaseapp.com",
+      databaseURL: "https://carbon-footprint-b6c76-default-rtdb.firebaseio.com",
+      projectId: "carbon-footprint-b6c76",
+      storageBucket: "carbon-footprint-b6c76.firebasestorage.app",
+      messagingSenderId: "291966892852",
+      appId: "1:291966892852:web:a55630fc18baaad52f8361"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // ---------- UI refs ----------
+  const entriesList = document.getElementById('entriesList');
+  const miniBars = document.getElementById('miniBars');
+  const latestTotalEl = document.getElementById('latestTotal');
+  const trendTextEl = document.getElementById('trendText');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const planBtn = document.getElementById('planBtn');
+  const planOutput = document.getElementById('planOutput');
+
+  // ---------- fetch entries ----------
+  async function loadEntries() {
+    entriesList.innerHTML = '';
+    miniBars.innerHTML = '';
+    planOutput.style.display = 'none';
+    planOutput.innerText = '';
+
+    const snap = await db.ref('entries').orderByChild('timestamp').once('value');
+    const data = snap.val();
+    if(!data) {
+      latestTotalEl.innerText = '— kg';
+      trendTextEl.innerText = 'No entries yet. Save a result to begin tracking.';
+      return;
+    }
+
+    // convert to array and sort ascending by time
+    const arr = Object.keys(data).map(k => {
+      return { id: k, ...data[k] };
+    }).sort((a,b) => a.timestamp - b.timestamp);
+
+    // Basic stats
+    const totals = arr.map(e => e.total);
+    const earliest = totals[0];
+    const latest = totals[totals.length-1];
+    latestTotalEl.innerText = latest.toFixed(2) + ' kg';
+
+    // percent change (earliest -> latest)
+    let pct = 0;
+    if (earliest > 0) {
+      pct = ((latest - earliest)/earliest)*100;
+    }
+    const improved = pct < 0;
+    const pctStr = Math.abs(pct).toFixed(1);
+
+    if(arr.length === 1) {
+      trendTextEl.innerText = 'Only one entry — save more to see trends';
+    } else {
+      trendTextEl.innerText = improved ? `Improved by ${pctStr}% since first entry` : `Increased by ${pctStr}% since first entry`;
+    }
+
+    // show mini bars (scale by max)
+    const maxTotal = Math.max(...totals);
+    arr.slice().reverse().forEach(e => {
+      const barWrap = document.createElement('div');
+      barWrap.style.display = 'flex';
+      barWrap.style.justifyContent = 'space-between';
+      barWrap.style.alignItems = 'center';
+
+      const label = document.createElement('div');
+      label.style.color = '#bfeec9';
+      label.style.fontSize = '13px';
+      label.innerText = (new Date(e.timestamp)).toLocaleString();
+
+      const barOuter = document.createElement('div');
+      barOuter.style.width = '60%';
+      barOuter.className = 'bar-wrap';
+
+      const barInner = document.createElement('div');
+      barInner.className = 'bar';
+      const w = Math.round((e.total / maxTotal) * 100);
+      barInner.style.width = w + '%';
+
+      barOuter.appendChild(barInner);
+      barWrap.appendChild(label);
+      barWrap.appendChild(barOuter);
+
+      miniBars.appendChild(barWrap);
+    });
+
+    // create entry cards (descending time)
+    arr.slice().reverse().forEach(e => {
+      const node = document.createElement('div');
+      node.className = 'entry';
+
+      const r1 = document.createElement('div'); r1.className='row';
+      const left = document.createElement('div'); left.innerHTML = `<div class="small">${(new Date(e.timestamp)).toLocaleString()}</div>`;
+      const right = document.createElement('div'); right.innerHTML = `<div class="total">${e.total.toFixed(2)} kg</div>`;
+      r1.appendChild(left); r1.appendChild(right);
+
+      const r2 = document.createElement('div'); r2.className='row';
+      r2.innerHTML = `<div class="small">Travel: ${e.km} km</div><div class="small">Energy: ${e.kwh} kWh</div>`;
+
+      const r3 = document.createElement('div'); r3.className='row';
+      r3.innerHTML = `<div class="small">Water: ${e.water} L</div><div class="small">ID: ${e.id.slice(-6)}</div>`;
+
+      const barWrap = document.createElement('div'); barWrap.className='bar-wrap';
+      const bar = document.createElement('div'); bar.className='bar';
+      const w = Math.round((e.total / maxTotal) * 100);
+      bar.style.width = w + '%';
+      barWrap.appendChild(bar);
+
+      node.appendChild(r1); node.appendChild(r2); node.appendChild(r3); node.appendChild(barWrap);
+
+      entriesList.appendChild(node);
+    });
+  }
+
+  // initial load
+  loadEntries();
+
+  refreshBtn.addEventListener('click', loadEntries);
+
+  // ---------- OpenRouter AI Plan (7-day plan) ----------
+  async function generatePlan(latestTotal) {
+    planOutput.style.display = 'block';
+    planOutput.innerText = 'Generating 7-day improvement plan...';
+
+    const apiKey = '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'; // <-- replace
+
+    try {
+      const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'HTTP-Referer': 'http://localhost:5500',
+          'X-Title': 'Carbon Progress Plan'
+        },
+        body: JSON.stringify({
+          model: 'meta-llama/llama-3.1-8b-instruct',
+          messages: [
+            { role: 'user', content: `My latest carbon footprint score is ${latestTotal}. Give me a simple 7-day plan with daily actions to reduce emissions. Keep each day 1-2 action items.` }
+          ]
+        })
+      });
+
+      const data = await resp.json();
+      console.log('AI plan response:', data);
+
+      if(!data.choices || !data.choices[0]) {
+        planOutput.innerText = 'AI error: ' + (data.error?.message || 'no response from model');
+        return;
+      }
+
+      const planText = data.choices[0].message.content;
+      planOutput.innerText = planText;
+    } catch (err) {
+      console.error(err);
+      planOutput.innerText = 'Failed to generate plan. Check your OpenRouter API key and internet.';
+    }
+  }
+
+  planBtn.addEventListener('click', async () => {
+    // find latest total
+    const snap = await db.ref('entries').orderByChild('timestamp').limitToLast(1).once('value');
+    const data = snap.val();
+    if(!data) {
+      planOutput.style.display = 'block';
+      planOutput.innerText = 'No data to create a plan. Save a result first.';
+      return;
+    }
+    const last = Object.values(data)[0];
+    generatePlan(last.total);
+  });
+
+  </script>
+</body>
+</html>

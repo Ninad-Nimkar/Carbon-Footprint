@@ -1,0 +1,112 @@
+/* GLOBAL PAGE STYLE */
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background: linear-gradient(180deg, #071423, #091a30);
+    font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+    color: #d6ffe4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* CALCULATOR TITLE */
+h1 {
+    color: #2effa0;
+    font-size: 50px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 1.5px;
+}
+
+/* INPUT FIELDS */
+input {
+    width: 320px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-size: 17px;
+    border-radius: 12px;
+    border: 2px solid rgba(46, 255, 160, 0.5);
+    background: rgba(0, 0, 0, 0.35);
+    color: #d6ffe4;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #2effa0;
+    box-shadow: 0 0 12px rgba(46, 255, 160, 0.4);
+}
+
+/* BUTTONS */
+button {
+    display: block;
+    width: 200px;
+    padding: 14px;
+    margin: 12px auto;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1dff8e, #17d66b);
+    color: #02140c;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 255, 150, 0.25);
+}
+
+/* RESULT TEXT */
+#result {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    color: #aaffd8;
+    width: 90%;
+    max-width: 850px;
+    padding: 24px;
+    border-radius: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #d6ffe4;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(46, 255, 160, 0.2);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease;
+}
+
+/* AI OUTPUT WRAPPER */
+#aiOutput {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 850px;
+    padding: 24px;
+    border-radius: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #d6ffe4;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(46, 255, 160, 0.2);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+    input { width: 100%; }
+    button { width: 100%; }
+    h1 { font-size: 38px; }
+}
