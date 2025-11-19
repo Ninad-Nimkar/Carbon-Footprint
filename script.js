@@ -56,7 +56,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 // ---------------- AI Tips (OpenRouter) ----------------
 async function getAISuggestions(total) {
-    const apiKey = "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";
+    const apiKey = "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";
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
