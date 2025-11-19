@@ -16,10 +16,19 @@
 <p id="result"></p>
 
 <button id="saveBtn">Save Result</button>
+<button id="aiBtn">Get AI Tips</button>
 
-<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"></script>
+<p id="aiOutput"></p>
 
+<!-- 1️⃣ Gemini SDK MUST be first -->
+<script src="https://cdn.jsdelivr.net/npm/@google/generative-ai/dist/browser.min.js"></script>
+
+<!-- 2️⃣ Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<!-- 3️⃣ Your JS file LAST -->
 <script src="script.js"></script>
+
 </body>
 </html>
