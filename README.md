@@ -1,3 +1,9 @@
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/bd3fab3c-3160-44e6-98a0-ffd62baea60d" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/83c7b335-4057-4bee-9685-71bb60bc76a8" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a3dd1908-72ce-4230-a798-fce281120fa0" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7087cc37-c582-4366-a02d-70d4fd661ff6" />
+
+
 🌱 Carbon Footprint Tracker
 A simple, smart, and AI-powered way to measure and improve your environmental impact.
 🚀 Overview
