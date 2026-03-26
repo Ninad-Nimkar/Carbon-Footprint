@@ -1,8 +1,9 @@
+
 // ---------------- Firebase Setup ----------------
 const firebaseConfig = {
     apiKey: "AIzaSyBGIGmJO1tn1gJg1WkCgKZbUTdTOsI5d4Q",
     authDomain: "carbon-footprint-b6c76.firebaseapp.com",
-    databaseURL: "https://carbon-footprint-b6c76-default-rtdb.firebaseio.com",
+    databaseURL: `Bearer ${process.env.FIREBASE_API_KEY}`,
     projectId: "carbon-footprint-b6c76",
     storageBucket: "carbon-footprint-b6c76.firebasestorage.app",
     messagingSenderId: "291966892852",
@@ -56,7 +57,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
 
 // ---------------- AI Tips (OpenRouter) ----------------
 async function getAISuggestions(total) {
-    const apiKey = "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";
+    const apiKey = `Bearer ${process.env.OPENROUTER_API_KEY}`;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
