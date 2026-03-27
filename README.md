@@ -51,7 +51,7 @@ Instant “tips to reduce emissions”
 
 Generates a 7-day improvement plan
 
-Uses LLaMA 3.1 model (Free to use)
+uses open Router
 
 ✔ Modern Dark UI (Neon Theme)
 
